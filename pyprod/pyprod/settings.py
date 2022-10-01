@@ -4,8 +4,7 @@ from pathlib import Path
 
 from .utils import get_env_variable
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 
 SECRET_KEY = get_env_variable("SECRET_KEY")
 DEBUG = True
@@ -19,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +58,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "core.User"
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
