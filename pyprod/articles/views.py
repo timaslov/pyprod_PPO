@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import get_object_or_404
 
 from .models import Subject, Article
+from . import forms
 
 
 class CoreSubjectsView(View):
@@ -29,8 +30,27 @@ class SubjectView(View):
 
 
 class ArticleView(View):
-    template_name = "articles/article.html"
+    template_name = "articles/articles/detail.html"
 
     def get(self, request, slug, *args, **kwargs):
         article = get_object_or_404(Article, slug=slug)
         return render(request, self.template_name, {"article": article})
+
+
+class CreateArticleView(View):
+    template_name = "articles/articles/create.html"
+
+    def get(self, request, slug, *args, **kwargs):
+        article = get_object_or_404(Article, slug=slug)
+        return render(request, self.template_name, {"article": article})
+
+
+class EditArticleView(View):
+    template_name = "articles/articles/edit.html"
+
+    def get(self, request, slug, *args, **kwargs):
+        article = get_object_or_404(Article, slug=slug)
+        form = forms.ArticleForm(instance=article)
+        print(form)
+        context = {"article": article, "form": form}
+        return render(request, self.template_name, context)

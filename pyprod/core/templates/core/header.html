@@ -1,0 +1,44 @@
+<header class="edu-header disable-transparent  header-sticky">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-xl-2 col-md-6 col-6">
+{#                <div class="logo"><a href="/"><img class="logo-light" src="/images/logo/logo.png" alt="Main Logo"></a></div>#}
+                <div class="logo"><a href="/"><span>PyProd</span></a></div>
+            </div>
+            <div class="col-lg-8 d-none d-xl-block">
+                <nav class="mainmenu-nav d-none d-lg-block">
+                    <ul class="mainmenu">
+                        <li class="has-droupdown"><a href="/">Subjects</a>
+                            <ul class="submenu">
+                                <li><a href="{% url "subject" "sql" %}">SQL</a></li>
+                                <li><a href="{% url "subject" "python" %}">Python</a></li>
+                                <li><a href="{% url "subject" "learn" %}">Обучение</a></li>
+                                <li><a href="{% url "subject" "linux" %}">Linux</a></li>
+                                <li><a href="{% url "subject" "devops" %}">DevOps</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-droupdown"><a href="/">Contact</a>
+                            <ul class="submenu">
+                                <li><a href="/">Contact Me</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-6 col-xl-2 col-md-6 col-6">
+                <div class="header-right d-flex justify-content-end">
+                    <div class="header-quote">
+                        <div class="quote-icon quote-search">
+                            <button class="search-trigger"><i class="ri-search-line"></i></button>
+                        </div>
+                        <div class="quote-icon quote-user"><a href="/login-register"><i class="ri-user-line"></i></a>
+                        </div>
+                        <div class="hamberger quote-icon d-block d-xl-none">
+                            <button class="hamberger-button"><i class="ri-menu-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
