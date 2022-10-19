@@ -1,0 +1,9 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+    <h1>Темы</h1>
+    <br>
+    {% for subject in subjects %}
+        <p><a href="{{ subject.get_absolute_url }}">{{ subject.title }}</a></p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+    <h3><a href="{% url "core_subjects" %}">Основные темы</a></h3>
+    {% if subject.parent %}
+        <h4><a href="{{ subject.parent.get_absolute_url }}">Назад</a></h4>
+    {% endif %}
+    <br>
+    <h1>{{ subject.title }}</h1>
+    <br>
+    {% for subject in child_subjects %}
+        <p><a href="{{ subject.get_absolute_url }}">{{ subject.title }}</a> (Тема)</p>
+    {% endfor %}
+
+    {% for article in articles %}
+        <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a> (Статья)</p>
+    {% endfor %}
+{% endblock %}
