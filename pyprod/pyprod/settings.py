@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "articles",
     # 3rd-party
     "tinymce",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
