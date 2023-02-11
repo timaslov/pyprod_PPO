@@ -8,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 ROOT = BASE_DIR.parent
 
 SECRET_KEY = get_env_variable("SECRET_KEY")
-DEBUG = True
+DEBUG = get_env_variable("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     # Django
