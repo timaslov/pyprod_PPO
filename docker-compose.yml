@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  back:
+    build: .
+    ports:
+      - "8000:5000"
+  postgres:
+    container_name: postgres
+    build: ./docker_build/postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pyprod
+    restart: on-failure
+
+volumes:
+  postgres_db:

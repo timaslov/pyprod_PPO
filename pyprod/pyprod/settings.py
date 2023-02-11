@@ -5,6 +5,7 @@ from pathlib import Path
 from .utils import get_env_variable
 
 BASE_DIR = Path(__file__).resolve().parents[1]
+ROOT = BASE_DIR.parent
 
 SECRET_KEY = get_env_variable("SECRET_KEY")
 DEBUG = True
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     "core",
     "articles",
     # 3rd-party
+    "django_extensions",
     "tinymce",
     "rest_framework",
 ]
@@ -59,8 +61,12 @@ WSGI_APPLICATION = "pyprod.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "pyprod",
+        "USER": "root",
+        "PASSWORD": "password",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 
@@ -86,6 +92,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "collected_static"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
