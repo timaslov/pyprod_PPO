@@ -2,7 +2,7 @@ rebuild-docker:
 	docker compose build --pull
 
 infra:
-	docker compose up -d postgres nginx
+	docker compose up -d postgres
 
 back:
 	docker compose up back --build

@@ -1,9 +1,6 @@
 version: "3.9"
+
 services:
-  back:
-    build: .
-    ports:
-      - "8000:5000"
   postgres:
     container_name: postgres
     build: ./docker_build/postgres
@@ -16,6 +13,20 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=pyprod
     restart: on-failure
+
+  back:
+    container_name: back
+    build: ./docker_build/back
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/pyprod/
+    depends_on:
+      - postgres
+    env_file: .env
+    extra_hosts:
+      - ${host_docker_internal:-host_docker_internal}:host-gateway
+    command: python manage.py runserver 0.0.0.0:8000
 
 volumes:
   postgres_db:

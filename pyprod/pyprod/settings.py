@@ -1,4 +1,5 @@
 import os
+from urllib import parse
 from typing import Any
 from pathlib import Path
 
@@ -59,14 +60,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "pyprod.wsgi.application"
 
+postgres_conf = parse.urlsplit(get_env_variable("POSTGRES_URL", "postgresql://root@localhost:5432/pyprod"))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "pyprod",
-        "USER": "root",
-        "PASSWORD": "password",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "USER": postgres_conf.username,
+        "PASSWORD": get_env_variable("POSTGRES_PASSWORD"),
+        "HOST": postgres_conf.hostname,
+        "PORT": postgres_conf.port,
     }
 }
 
