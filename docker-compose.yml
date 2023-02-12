@@ -16,7 +16,9 @@ services:
 
   back:
     container_name: back
-    build: ./docker_build/back
+    build:
+      context: .
+      dockerfile: ./docker_build/back/Dockerfile
     ports:
       - "8000:8000"
     volumes:
