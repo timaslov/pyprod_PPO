@@ -13,4 +13,5 @@ class ArticlesIndexView(APIView):
         articles_data = ArticleSerializer(articles, many=True).data
         subjects_data = SubjectSerializer(subjects, many=True).data
 
-        return Response(articles_data)
+        data = list(articles_data) + list(subjects_data)
+        return Response(data)
