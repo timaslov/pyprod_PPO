@@ -1,17 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from ....models import Article, Subject
-from ....serializers import ArticleSerializer, SubjectSerializer
+from ....dal import get_core_subjects
+from ....serializers import SubjectAndChildrenSerializer
 
 
 class ArticlesIndexView(APIView):
     def get(self, request, *args, **kwargs):
-        articles = Article.objects.defer("content")
-        subjects = Subject.objects.all()
+        core_subjects = get_core_subjects()
+        result = []
+        for core_subject in core_subjects:
+            result.append(SubjectAndChildrenSerializer(core_subject).data)
 
-        articles_data = ArticleSerializer(articles, many=True).data
-        subjects_data = SubjectSerializer(subjects, many=True).data
-
-        data = list(articles_data) + list(subjects_data)
-        return Response(data)
+        return Response(result)
