@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "core",
     "articles",
     # 3rd-party
+    "corsheaders",
     "django_extensions",
     "tinymce",
     "rest_framework",
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -98,5 +100,6 @@ STATIC_ROOT = BASE_DIR / "collected_static"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CORS_URLS_REGEX = r"^/api/.*$"
 
 # TINYMCE_JS_URL = 1
