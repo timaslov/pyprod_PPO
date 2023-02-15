@@ -11,14 +11,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         exclude = ["content"]
 
 
-class SubjectSerializer(serializers.ModelSerializer):
-    item = serializers.ReadOnlyField(default="subject")
-
-    class Meta:
-        model = Subject
-        fields = "__all__"
-
-
 class SubjectAndChildrenSerializer(serializers.ModelSerializer):
     item = serializers.ReadOnlyField(default="subject")
     children = serializers.SerializerMethodField()
