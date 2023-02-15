@@ -4,6 +4,12 @@ from .models import Article, Subject
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = "__all__"
+
+
+class ArticleIndexSerializer(serializers.ModelSerializer):
     item = serializers.ReadOnlyField(default="article")
 
     class Meta:
@@ -23,7 +29,7 @@ class SubjectAndChildrenSerializer(serializers.ModelSerializer):
     def get_children(obj):
         child_articles = obj.articles.defer("content")
         child_subjects = obj.children.all()
-        articles_data = ArticleSerializer(child_articles, many=True).data
+        articles_data = ArticleIndexSerializer(child_articles, many=True).data
         subjects_data = SubjectAndChildrenSerializer(child_subjects, many=True).data
         data = list(articles_data) + list(subjects_data)
         return data
