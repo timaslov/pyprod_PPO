@@ -15,14 +15,14 @@ services:
     container_name: front
     build:
       context: ./frontend
-      dockerfile: ../docker_build/nginx/Dockerfile
+      dockerfile: ../docker_build/front/Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/.cache/frontend
-      - /app/frontend/server/www/static_frontend
-      - /app/node_modules
+#    volumes:
+#      - ./frontend:/app
+#      - /app/.cache/frontend
+#      - /app/frontend/server/www/static_frontend
+#      - /app/node_modules
     depends_on:
       - nginx
     env_file: .env
@@ -53,6 +53,7 @@ services:
       - ./:/pyprod/
     depends_on:
       - postgres
+      - nginx
     env_file: .env
     extra_hosts:
       - ${host_docker_internal:-host_docker_internal}:host-gateway

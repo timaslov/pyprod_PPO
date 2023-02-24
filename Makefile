@@ -1,6 +1,9 @@
 rebuild-docker:
 	docker compose build --pull
 
+prod:
+	docker compose up -d
+
 infra:
 	docker compose up -d postgres nginx
 
