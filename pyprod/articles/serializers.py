@@ -1,35 +1,32 @@
 from rest_framework import serializers
 
-from .models import Article, Subject
+from .models import Article
+from .const import ARTICLE_TREE_FIELDS
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = "__all__"
+        fields = [
+            "title",
+            "tagline",
+            "content",
+            "slug",
+            "author",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
 
 
-class ArticleIndexSerializer(serializers.ModelSerializer):
-    item = serializers.ReadOnlyField(default="article")
-
-    class Meta:
-        model = Article
-        exclude = ["content"]
-
-
-class SubjectAndChildrenSerializer(serializers.ModelSerializer):
-    item = serializers.ReadOnlyField(default="subject")
+class ArticleTreeSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
 
     class Meta:
-        model = Subject
-        fields = "__all__"
+        model = Article
+        fields = list(ARTICLE_TREE_FIELDS) + ["children"]
 
     @staticmethod
     def get_children(obj):
-        child_articles = obj.articles.defer("content")
-        child_subjects = obj.children.all()
-        articles_data = ArticleIndexSerializer(child_articles, many=True).data
-        subjects_data = SubjectAndChildrenSerializer(child_subjects, many=True).data
-        data = list(articles_data) + list(subjects_data)
-        return data
+        child_articles = obj.children.only(*ARTICLE_TREE_FIELDS)
+        return ArticleTreeSerializer(child_articles, many=True).data
