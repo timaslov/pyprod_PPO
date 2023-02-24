@@ -11,6 +11,7 @@ from ....serializers import ArticleTreeSerializer, ArticleSerializer
 class ArticleViewSet(ModelViewSet):
     queryset = Article.objects.all().order_by("-created_at")
     serializer_class = ArticleSerializer
+    lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @action(detail=False)

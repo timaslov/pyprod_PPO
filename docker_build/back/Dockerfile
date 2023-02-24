@@ -8,9 +8,9 @@ RUN apt-get update \
         python3-dev \
         libpq-dev
 #       postgresql-contrib \
-
 COPY requirements.pip requirements.pip
 RUN pip install -r requirements.pip
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 WORKDIR /pyprod/pyprod/
