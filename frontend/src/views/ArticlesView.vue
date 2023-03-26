@@ -1,9 +1,6 @@
 <template>
-
-  <div class="pl-10 pt-10 pr-10">
-    <subject-block
-        :list-name="'Темы'"
-    />
+  <div class="p-10">
+    <subject-block :list-name="'Темы'"/>
   </div>
 
 </template>

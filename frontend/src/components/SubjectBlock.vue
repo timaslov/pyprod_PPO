@@ -1,16 +1,35 @@
 <template>
-  <div class="border-2 border-black rounded-lg pl-5 pr-5 pt-5 pb-5"
-       v-show="!isTreeVisible">
-    <p class= "text-center text-2xl"> {{ listName }}</p>
-    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 flex items-end pt-5">
+  <div
+    class="
+      border-2
+      border-black
+      rounded-lg
+      p-5
+    "
+    v-show="!isTreeVisible"
+  >
+    <p class="text-center text-2xl">{{ listName }}</p>
+
+    <div
+      class="
+        grid
+        gap-4
+        grid-cols-1
+        sm:grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-4
+        xl:grid-cols-5
+        pt-5
+      "
+    >
       <subject-block-node
-          class="font-bold"
-          @showTree="
-            isTreeVisible = true;
-            setArticleToShow($event);
-            updateRoute();
-            this.findFullRoute(this.treeData, this.ArticleToShow.slug)"
-          v-for="elem in this.treeData"
+        @showTree="
+          isTreeVisible = true;
+          setArticleToShow($event);
+          updateRoute();
+          this.findFullRoute(this.treeData, this.ArticleToShow.slug)
+        "
+        v-for="elem in this.treeData"
           :key="elem"
           :title="elem.title"
           :node="elem"
@@ -18,26 +37,33 @@
     </div>
   </div>
 
-  <div class="flex space-x-10 pt-10">
-    <div class="flex-col border-2 border-black rounded-lg"
-         v-show="isTreeVisible"
-         v-if="fullRoute.length > 0">
+  <div class="flex space-x-10">
+    <div class="border-2 border-black rounded-lg"
+      v-show="isTreeVisible"
+      v-if="fullRoute.length > 0"
+    >
       <tree-browser
-          @changeArticle="
-            setArticleToShow($event);
-            updateRoute()"
-          v-for="child in this.treeData"
+        @changeArticle="
+          setArticleToShow($event);
+          updateRoute()
+        "
+        v-for="child in this.treeData"
           :key="child.title"
           :node="child"
           :path-array="fullRoute"
       />
     </div>
 
-    <div class="flex-1 border-2 border-black rounded-lg"
-         v-if="(typeof ArticleToShow) === (typeof {})">
-      <article-block
-          :node="ArticleToShow"
-      />
+    <div
+      class="
+        flex-1
+        border-2
+        border-black
+        rounded-lg
+      "
+       v-if="(typeof ArticleToShow) === (typeof {})"
+    >
+      <article-block :node="ArticleToShow"/>
     </div>
   </div>
 </template>
@@ -46,6 +72,7 @@
 import subjectBlockNode from "@/components/SubjectBlockNode.vue";
 import treeBrowser from "@/components/TreeBrowser.vue";
 import articleBlock from "@/components/ArticleBlock.vue";
+import axios from "axios";
 
 export default {
   components: {subjectBlockNode, treeBrowser, articleBlock},
@@ -67,13 +94,14 @@ export default {
     }
   },
 
-  async mounted() {
+  async created() {
     await this.fetchArticleTree(this.urlArticleTree)
 
     if (this.$route.params.slug !== undefined)
       if (this.$route.params.slug.length > 0){
         await this.fetchArticle(this.urlArticle, this.$route.params.slug)
         this.findFullRoute(this.treeData, this.$route.params.slug[0])
+        //console.log(this.fullRoute)
         this.isTreeVisible = true
       }
   },
@@ -106,24 +134,15 @@ export default {
     },
 
     async fetchArticleTree(url) {
-      try {
-        const response = await fetch(url)
-        const result = await response.json()
-        this.treeData.push(...result)
-      }
-      catch (error) {
-        this.errors.push(error)
-      }
+      await axios
+          .get(url)
+          .then(response => this.treeData.push(...(response.data)))
     },
 
     async fetchArticle(url, slug) {
-      try {
-        const response = await fetch(url + slug)
-        this.ArticleToShow = await response.json()
-      }
-      catch (error) {
-        this.errors.push(error)
-      }
+      await axios
+          .get(url + slug)
+          .then(response => this.ArticleToShow = response.data)
     },
 
   },
@@ -135,11 +154,7 @@ export default {
         this.findFullRoute(this.treeData, this.$route.params.slug[0])
       }
     }
-  }
+  },
 
 }
 </script>
-
-<style scoped>
-
-</style>

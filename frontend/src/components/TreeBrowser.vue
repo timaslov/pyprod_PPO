@@ -1,33 +1,33 @@
 <template>
   <div>
     <div
-        class="pl-2 pt-2 inline-flex space-x-3"
-        :style="{'margin-left': `${depth * 20}px`}"
+      class="p-2 inline-flex space-x-3 items-end"
+      :style="{'margin-left': `${depth * 20}px`}"
     >
-        <tree-leaf
-            @click="chooseArticle()"
-            :node="node"
-            :path-array="this.pathArray"
-        />
-        <span
-            v-if="ifChildrenExist()"
-            class="text-teal-600 cursor-pointer"
-            @click="expanded = !expanded"
-        >
-          {{expanded ? '&#9660;' : '&#10148;'}}
-        </span>
+      <tree-leaf
+        @click="chooseArticle()"
+        :node="node"
+        :path-array="this.pathArray"
+      />
+
+      <span
+        class="text-amber-600 cursor-pointer"
+        v-if="ifChildrenExist()"
+        @click="expanded = !expanded"
+      >
+        {{expanded ? '&#9660;' : '&#10148;'}}
+      </span>
     </div>
 
-    <ul v-if="expanded">
-      <TreeBrowser
-          @changeArticle="sendArtID($event)"
-          v-for="child in node.children"
-          :key="child.name"
-          :node="child"
-          :depth="depth + 1"
-          :path-array="this.pathArray.slice(1)"
-      />
-    </ul>
+    <TreeBrowser
+      v-if="expanded"
+      v-for="child in node.children"
+        :key="child.name"
+        :node="child"
+        :depth="depth + 1"
+        :path-array="this.pathArray.slice(1)"
+      @changeArticle="sendArtID($event)"
+    />
   </div>
 </template>
 
@@ -40,11 +40,11 @@ export default {
 
   props: {
     node: Object,
+    pathArray: Array,
     depth: {
       type: Number,
       default: 0,
     },
-    pathArray: Array,
   },
 
   data() {
@@ -72,9 +72,6 @@ export default {
       this.expanded = true
     }
   },
+
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,33 +1,83 @@
+<script setup>
+import { Form, Field } from 'vee-validate';
+import { useAuthStore } from '@/stores/auth.store';
+import * as Yup from 'yup';
+
+const schema = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
+  password: Yup.string().required('Password is required')
+});
+function onSubmit(values, { setErrors }) {
+  const authStore = useAuthStore();
+  const { username, password } = values;
+
+  //console.log(authStore.login(username, password))
+  return authStore.login(username, password)
+      .catch(error => setErrors({apiError: error}));
+}
+</script>
+
 <template>
   <div class="flex flex-col p-10 place-items-center">
-    <form class="flex flex-col space-y-10 place-items-center p-10 border-2 border-black w-[400px]">
-
-      <div><h1 class="text-center text-2xl">Аутентификация</h1></div>
+    <Form
+      @submit="onSubmit"
+      :validation-schema="schema"
+      v-slot="{errors, isSubmitting}"
+      class="
+        flex
+        flex-col
+        space-y-10
+        place-items-center
+        p-10 border-2
+        border-black
+        w-[400px]
+      "
+    >
+      <h1 class="text-center text-2xl">Аутентификация</h1>
 
       <div class="grid grid-cols-2 place-items-center">
         <label>Логин / Email</label>
-        <input class="border-2">
+        <Field name="username" class="border-2" />
+        <div v-if="errors.username" class="text-red-500">{{ 'Введите логин' }}</div>
       </div>
 
       <div class="grid grid-cols-2 place-items-center">
         <label>Пароль</label>
-        <input class="border-2">
+        <Field name="password" type="password" class="border-2" />
+        <div v-if="errors.password" class="text-red-500">{{ 'Введите пароль' }}</div>
       </div>
 
       <div>
-        <button class="p-2 border-2 border-teal-500">Войти</button>
+        <button class="
+                text-white
+                bg-amber-600
+                hover:bg-amber-800
+                duration-300
+                focus:ring-4
+                focus:outline-none
+                focus:ring-blue-300
+                font-medium
+                rounded-lg
+                text-sm
+                px-5
+                py-2.5
+                text-center
+                mr-0
+                dark:bg-blue-600
+                dark:hover:bg-blue-700
+                dark:focus:ring-blue-800
+              "
+        >Войти</button>
       </div>
 
-    </form>
+      <div v-if="errors.apiError" class="text-red-500 alert alert-danger mt-3 mb-0">{{errors.apiError}}</div>
+
+    </Form>
   </div>
 </template>
 
 <script>
 export default {
-  name: "authentication-view"
+  name: "authentication-view",
 }
 </script>
-
-<style scoped>
-
-</style>

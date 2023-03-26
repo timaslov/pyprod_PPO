@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-teal-500 w-full h-full">
+  <div class="h-full rounded-lg">
     <h1 class="text-xl text-center">
       {{ this.articleData.title }}
     </h1>
@@ -40,21 +40,8 @@ export default {
       axios
           .get(this.urlData + this.node.slug)
           .then(response => (this.articleData = response.data))
-      // try {
-      //   const fetchUrl = this.urlData.concat(this.node.slug)
-      //   const response = await fetch(fetchUrl)
-      //   this.articleData = await response.json()
-      // } catch (error) {
-      //   this.errors.push(error)
-      // }
     }
   },
 
-
-
 }
 </script>
-
-<style scoped>
-
-</style>

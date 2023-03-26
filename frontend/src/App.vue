@@ -1,14 +1,13 @@
 <template>
-  <div id="app" class="relative min-h-screen font-sans">
 
+  <div id="app" class="relative min-h-screen font-sans ">
     <nav-bar/>
 
     <div class="pb-[80px]">
-      <router-view></router-view>
+      <router-view/>
     </div>
 
     <footer-component/>
-
   </div>
 </template>
 
@@ -20,6 +19,5 @@ export default {
     navBar,
     FooterComponent
   }
-
 }
 </script>
