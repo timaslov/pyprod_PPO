@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from "@/stores/auth.store";
+//import { useAuthStore } from "@/stores/auth.store";
 
 import mainView from "@/views/MainView.vue";
 import articlesView from "@/views/ArticlesView.vue";
@@ -45,11 +45,9 @@ const router = createRouter(
 export default router;
 
 router.beforeEach(async (to) => {
-
-  //console.log(to);
-  const auth = useAuthStore();
-
-   if (auth.user && (to.fullPath === "/signIn" || to.fullPath === "/signUp")) {
+  //const auth = useAuthStore();
+  // Использовать useAuthStore или localstorage? И в NavBar тот же вопрос.
+  if (localStorage.getItem('user') !== null && (to.fullPath === "/signIn" || to.fullPath === "/signUp")) {
      return '/';
    }
 });

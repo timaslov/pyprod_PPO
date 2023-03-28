@@ -60,39 +60,46 @@ function logoutButton() {
             md:bg-white
           "
         >
-          <li
-            class="
-              block py-2 pl-3 pr-4 rounded
-              md:bg-transparent
-              md:p-0
-              md:hover:bg-transparent
-              md:hover:text-amber-600
-              hover:bg-amber-600
-              hover:text-white
-            "
-            :class="{
-            'md:text-amber-600 bg-amber-600 text-white' : this.curTab === 'articles',
-            'md:text-gray-700' : this.curTab !== 'articles',
-            }">
-            <router-link to="/articles">Статьи</router-link>
+          <li>
+            <router-link
+              to="/articles"
+              class="
+                block py-2 pl-3 pr-4 rounded
+                md:bg-transparent
+                md:p-0
+                md:hover:bg-transparent
+                md:hover:text-amber-600
+                hover:bg-amber-600
+                hover:text-white
+              "
+              :class="{
+                'md:text-amber-600 bg-amber-600 text-white' : this.curTab === 'articles',
+                'md:text-gray-700' : this.curTab !== 'articles',
+              }"
+            >
+              Статьи
+            </router-link>
           </li>
 
-          <li
-            class="
-              block py-2 pl-3 pr-4 rounded
-              md:bg-transparent
-              md:p-0
-              md:hover:bg-transparent
-              md:hover:text-amber-600
-              hover:bg-amber-600
-              hover:text-white
-            "
-            :class="{
-            'md:text-amber-600 bg-amber-600 text-white' : this.curTab === 'about',
-            'md:text-gray-700' : this.curTab !== 'about',
-          }">
-            <router-link to="/about">О проекте</router-link>
-
+          <li>
+            <router-link
+                to="/about"
+                class="
+                block py-2 pl-3 pr-4 rounded
+                md:bg-transparent
+                md:p-0
+                md:hover:bg-transparent
+                md:hover:text-amber-600
+                hover:bg-amber-600
+                hover:text-white
+              "
+                :class="{
+                'md:text-amber-600 bg-amber-600 text-white' : this.curTab === 'about',
+                'md:text-gray-700' : this.curTab !== 'about',
+              }"
+            >
+              О проекте
+            </router-link>
           </li>
 
           <li>
@@ -227,7 +234,6 @@ function logoutButton() {
 </template>
 
 <script>
-import {getNthPathPart} from "@/helpers/helper";
 export default {
   name: "nav-bar",
 
@@ -241,14 +247,12 @@ export default {
   methods: {
     toggleNavbar: function(){
       this.showMenu = !this.showMenu;
-      //console.log(this.showMenu)
     },
   },
 
   watch: {
     $route: function () {
-      this.curTab = getNthPathPart(this.$route.path, 0);
-      //console.log(this.curTab)
+      this.curTab = this.$route.path.split('/')[1];
     }
   },
 

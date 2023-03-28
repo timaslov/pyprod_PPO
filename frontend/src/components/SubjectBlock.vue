@@ -101,7 +101,6 @@ export default {
       if (this.$route.params.slug.length > 0){
         await this.fetchArticle(this.urlArticle, this.$route.params.slug)
         this.findFullRoute(this.treeData, this.$route.params.slug[0])
-        //console.log(this.fullRoute)
         this.isTreeVisible = true
       }
   },
