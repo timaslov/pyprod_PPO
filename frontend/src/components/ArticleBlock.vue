@@ -3,9 +3,8 @@
     <h1 class="text-xl text-center">
       {{ this.articleData.title }}
     </h1>
-    <p class="text-m text-center">
-      {{ this.articleData.content }}
-    </p>
+
+    <div v-html="this.articleData.content"></div>
   </div>
 </template>
 

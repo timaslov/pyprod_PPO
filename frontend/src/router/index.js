@@ -6,6 +6,7 @@ import articlesView from "@/views/ArticlesView.vue";
 import aboutView from "@/views/AboutView.vue";
 import registrationView from "@/views/RegistrationView.vue";
 import authenticationView from "@/views/AuthenticationView.vue";
+import articleEditorView from "@/views/ArticleEditorView.vue";
 
 
 const routes = [
@@ -32,6 +33,10 @@ const routes = [
   {
     path: '/articles/:slug+',
     component: articlesView
+  },
+  {
+    path: '/editor',
+    component: articleEditorView
   },
 ]
 

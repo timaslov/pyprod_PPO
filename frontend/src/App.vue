@@ -1,6 +1,5 @@
 <template>
-
-  <div id="app" class="relative min-h-screen font-sans ">
+  <div id="app" class="relative min-h-screen font-sans">
     <nav-bar/>
 
     <div class="pb-[80px]">

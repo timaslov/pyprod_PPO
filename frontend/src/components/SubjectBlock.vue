@@ -1,6 +1,20 @@
+<script setup>
+window.onscroll = function() {
+  var treeButtonElement = this.document.getElementById("treeButton");
+  var treeBrowserElement = this.document.getElementById("treeBrowser");
+  var scrollTop = document.documentElement.scrollTop;
+  treeButtonElement.style.transform = "translateY(" + scrollTop + "px)";
+  treeBrowserElement.style.transform = "translateY(" + scrollTop + "px)"
+};
+
+</script>
+
 <template>
   <div
     class="
+      container
+      m-auto
+      my-5
       border-2
       border-black
       rounded-lg
@@ -37,30 +51,75 @@
     </div>
   </div>
 
-  <div class="flex space-x-10">
-    <div class="border-2 border-black rounded-lg"
-      v-show="isTreeVisible"
-      v-if="fullRoute.length > 0"
+  <!-- Здесь колхоз надо поправить (absolute top-[500px] left-[0px]) -->
+  <div
+    id="treeButton"
+    v-show="isTreeVisible">
+    <button
+        type="button"
+        class="
+            absolute top-[500px] left-[0px]
+            text-sm
+            text-gray-500
+            rounded-lg
+            md:hidden
+            hover:bg-gray-100
+          "
+        @click="togglePopupTree()"
     >
-      <tree-browser
-        @changeArticle="
-          setArticleToShow($event);
-          updateRoute()
-        "
-        v-for="child in this.treeData"
-          :key="child.title"
-          :node="child"
-          :path-array="fullRoute"
-      />
+      <span>&#127795</span>
+    </button>
+  </div>
+
+  <div
+    class="
+      container
+      grid
+      grid-cols-4
+      gap-4
+      mx-auto
+      my-5
+      bg-gray-100
+      border-2
+      border-gray-300
+      rounded-lg
+    "
+    v-show="isTreeVisible"
+  >
+    <!-- Здесь колхоз надо поправить (max-h-[500px]]) -->
+    <div
+      id="treeBrowser"
+      class="
+        mx-auto
+        col-span-1
+        max-h-[500px]
+        md:block"
+      v-if="fullRoute.length > 0"
+      v-bind:class="{'hidden col-span-1': !showPopupTree, 'col-span-4': showPopupTree}"
+    >
+      <div class="mr-0">
+        <tree-browser
+          @changeArticle="
+            setArticleToShow($event);
+            updateRoute()
+          "
+          v-for="child in this.treeData"
+            :key="child.title"
+            :node="child"
+            :path-array="fullRoute"
+        ></tree-browser>
+      </div>
     </div>
 
     <div
       class="
-        flex-1
-        border-2
-        border-black
+        md:col-span-3
+        col-span-4
+        p-10
+        bg-white
         rounded-lg
       "
+      v-bind:class="{'col-span-3': !showPopupTree, 'col-span-0 hidden': showPopupTree}"
        v-if="(typeof ArticleToShow) === (typeof {})"
     >
       <article-block :node="ArticleToShow"/>
@@ -91,6 +150,7 @@ export default {
       isTreeVisible: false,
       ArticleToShow: Object,
       fullRoute: [],
+      showPopupTree: false,
     }
   },
 
@@ -144,6 +204,10 @@ export default {
           .then(response => this.ArticleToShow = response.data)
     },
 
+    togglePopupTree(){
+      this.showPopupTree = !this.showPopupTree;
+    },
+
   },
 
   watch: {
@@ -151,6 +215,9 @@ export default {
       if (this.$route.params.slug !== undefined){
         this.fullRoute = []
         this.findFullRoute(this.treeData, this.$route.params.slug[0])
+      }
+      else {
+        this.isTreeVisible = false
       }
     }
   },
