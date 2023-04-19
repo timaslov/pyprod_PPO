@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from .models import Article
-from .const import ARTICLE_TREE_FIELDS
+from .const import ARTICLE_TREE_FIELDS, ArticleStatus
+from .dto import ArticleDTO
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -17,6 +18,19 @@ class ArticleSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class ArticleCreateSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    tagline = serializers.CharField()
+    content = serializers.CharField()
+    slug = serializers.CharField()
+    parent_id = serializers.IntegerField(required=False)
+    author_id = serializers.IntegerField()
+    status = serializers.ChoiceField(ArticleStatus.choices)
+
+    def create(self, validated_data):
+        return ArticleDTO(**validated_data)
 
 
 class ArticleTreeSerializer(serializers.ModelSerializer):

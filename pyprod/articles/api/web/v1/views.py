@@ -1,11 +1,15 @@
+from dataclasses import asdict
+
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from ....dal import get_core_subjects
 from ....models import Article
-from ....serializers import ArticleTreeSerializer, ArticleSerializer
+from ....serializers import ArticleTreeSerializer, ArticleSerializer, ArticleCreateSerializer
+from ....services import get_article_service
 
 
 class ArticleViewSet(ModelViewSet):
@@ -22,3 +26,15 @@ class ArticleViewSet(ModelViewSet):
             result.append(ArticleTreeSerializer(core_subject).data)
 
         return Response(result)
+
+
+class ArticleTestView(APIView):
+    serializer_class = ArticleCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        article = serializer.save()
+        article_service = get_article_service()
+        article_service.add(article)
+        return Response(asdict(article))

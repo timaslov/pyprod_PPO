@@ -9,5 +9,6 @@ router.register("", views.ArticleViewSet, basename="article")
 
 
 urlpatterns = [
+    path("test/", views.ArticleTestView.as_view()),
     path("", include(router.urls)),
 ]
