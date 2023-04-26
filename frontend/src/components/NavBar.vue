@@ -1,11 +1,6 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.store';
-const store = useAuthStore();
-
-function logoutButton() {
-  const authStore = useAuthStore();
-  authStore.logout();
-}
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -51,19 +46,23 @@ function logoutButton() {
       </router-link>
 
       <!-- Кнопка выпадающего меню слева в сжатом режиме -->
-      <button
+      <div
+        class="
+          w-[150px]
+          md:hidden
+        "
+      >
+        <button
         id="navMenuButton"
         type="button"
         class="
-          flex
-          md:hidden
           mx-3
           w-[50px] h-[50px]
           text-sm
           text-gray-500
         "
         @click="toggleNavMenu()"
-      >
+        >
           <svg
             id="navMenuButtonSVG"
             class="w-10 h-10 m-auto hover:bg-gray-100 rounded-lg"
@@ -79,7 +78,8 @@ function logoutButton() {
             >
             </path>
           </svg>
-      </button>
+        </button>
+      </div>
 
       <!-- Навигационное меню для обоих режимов -->
       <div
@@ -91,7 +91,7 @@ function logoutButton() {
           z-50
         "
         @click="closeNavMenu()"
-        v-bind:class="{'hidden': !showMenu, 'absolute pt-[250px]': showMenu}"
+        v-bind:class="{'hidden': !showNavMenu, 'absolute pt-[250px]': showNavMenu}"
       >
         <ul
           class="
@@ -197,6 +197,7 @@ function logoutButton() {
           md:hidden
           items-center
           w-[60px]
+          min-w-[60px]
         "
       >
         <img
@@ -206,132 +207,161 @@ function logoutButton() {
         >
       </router-link>
 
-      <!-- Кнопка "Войти" справа в широком режиме -->
-      <div
-        class="
-          hidden
-          md:flex
-          w-[142px]
-        "
-      >
-        <router-link
-          to="/signIn"
-          v-if="store.user === null"
-          class="mx-auto"
-        >
-          <button
-            type="button"
-            class="
-              text-white
-              bg-amber-600
-              hover:bg-amber-800
-              duration-300
-              font-medium
-              rounded-lg
-              text-sm
-              px-5
-              py-2.5
-            "
-          >
-            Войти
-          </button>
-        </router-link>
-
-        <ul
-          v-if="store.user !== null"
-          class="
-            space-y-2
-            flex
-            flex-col
-            p-4
-            md:flex-row
-            md:space-x-2
-            md:space-y-0
-            md:mt-0
-          "
-        >
-          <li>
-            <p
-              class="text-s py-2">
-              {{ store.user.email.slice(0,3) }}
-            </p>
-          </li>
-
-          <li>
-            <router-link to="/">
-              <button
-                type="button"
-                class="
-                  text-white
-                  bg-amber-600
-                  hover:bg-amber-800
-                  duration-300
-                  font-medium
-                  rounded-lg
-                  text-sm
-                  px-5
-                  py-2.5
-                "
-                @click="logoutButton"
-              >
-                Выйти
-              </button>
-            </router-link>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Иконка "Войти" справа в сжатом режиме -->
-      <router-link
-        to="/signIn"
-        class="
-          mx-3
-          w-[50px] h-[50px]
-          flex
-          md:hidden
-          hover:border-2
-          border-gray-600
-          rounded-full
-          cursor-pointer
-        "
-      >
+      <div class="w-[150px]">
+        <!-- Кнопка "Войти" справа в широком режиме -->
         <div
           class="
-            m-auto
-            relative
-            w-10 h-10
-            overflow-hidden
-            bg-gray-100
-            rounded-full
+            hidden
+            md:flex
           "
         >
-          <svg
-            class="absolute w-12 h-12 text-gray-400 -left-1"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+          <router-link
+            to="/signIn"
+            v-if="authStore.user === null"
+            class="mx-auto"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clip-rule="evenodd"
+            <button
+              type="button"
+              class="
+                text-white
+                bg-amber-600
+                hover:bg-amber-800
+                duration-300
+                font-medium
+                rounded-lg
+                text-sm
+                px-5
+                py-2.5
+              "
             >
-            </path>
-          </svg>
+              Войти
+            </button>
+          </router-link>
         </div>
-      </router-link>
+
+        <!-- Иконка "Аккаунт" справа в широком режиме -->
+        <div class="hidden md:block">
+          <button
+              id="accountIcoBigButton"
+              @click="accountButtonClick"
+              v-if="authStore.user !== null"
+              class="
+              flex
+              mx-auto
+              w-[50px] h-[50px]
+              hover:border-2
+              border-gray-600
+              rounded-full
+              cursor-pointer
+            "
+          >
+            <div
+                class="
+                m-auto
+                relative
+                w-10 h-10
+                overflow-hidden
+                bg-gray-100
+                rounded-full
+              "
+            >
+              <svg
+                  id="accountIcoBigSVG"
+                  class="absolute w-12 h-12 text-gray-400 -left-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+              >
+                <path
+                    id="accountIcoBigSVGPath"
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                >
+                </path>
+              </svg>
+            </div>
+          </button>
+
+          <nav-bar-user-menu v-if="showUserMenu"/>
+        </div>
+
+        <!-- Иконка "Войти" справа в сжатом режиме -->
+        <router-link
+          v-if="authStore.user === null"
+          to="/signIn"
+          class="
+            w-[50px] h-[50px]
+            flex
+            md:hidden
+            mr-3 ml-auto
+          "
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in mx-auto my-auto text-gray-500" id="IconChangeColor"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" id="mainIconPathAttribute"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+        </router-link>
+
+        <!-- Иконка "Аккаунт" справа в сжатом режиме -->
+        <div class="block md:hidden">
+          <button
+              id="accountIcoSmallButton"
+              @click="accountButtonClick"
+              v-if="authStore.user !== null"
+              class="
+              flex
+              mr-3 ml-auto
+              w-[50px] h-[50px]
+              hover:border-2
+              border-gray-600
+              rounded-full
+              cursor-pointer
+            "
+          >
+            <div
+                class="
+                m-auto
+                relative
+                w-10 h-10
+                overflow-hidden
+                bg-gray-100
+                rounded-full
+              "
+            >
+              <svg
+                  id="accountIcoSmallSVG"
+                  class="absolute w-12 h-12 text-gray-400 -left-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+              >
+                <path
+                    id="accountIcoSmallSVGPath"
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                >
+                </path>
+              </svg>
+            </div>
+          </button>
+
+          <nav-bar-user-menu v-if="showUserMenu"/>
+        </div>
+      </div>
 
     </div>
   </nav>
 </template>
 
 <script>
+import navBarUserMenu from "@/components/NavBarUserMenu.vue";
 export default {
   name: "nav-bar",
+
+  components: {navBarUserMenu},
 
   data() {
     return {
       curTab: String,
-      showMenu: false,
+      showNavMenu: false,
+      showUserMenu: false,
     }
   },
 
@@ -347,21 +377,46 @@ export default {
 
   methods: {
     toggleNavMenu: function(){
-      this.showMenu = !this.showMenu;
+      this.showNavMenu = !this.showNavMenu;
     },
+
     closeNavMenu: function(){
-      this.showMenu = false;
+      this.showNavMenu = false;
     },
+
     resizeHandler() {
       this.closeNavMenu();
     },
+
     clickHandler(e) {
-      // Лютый костыль, который надо убрать
+      // Лютые костыли, который надо поправить
       if (e.target.id !== 'navMenuButton' &&
           e.target.id !== 'navMenuButtonSVG' &&
           e.target.id !== 'navMenuButtonSVGPath')
         this.closeNavMenu();
+
+      if (e.target.id !== 'accountIcoBigSVG' &&
+          e.target.id !== 'accountIcoBigSVGPath' &&
+          e.target.id !== 'accountIcoBigButton' &&
+          e.target.id !== 'accountIcoSmallButton' &&
+          e.target.id !== 'accountIcoSmallSVG' &&
+          e.target.id !== 'accountIcoSmallSVGPath')
+        this.closeUserMenu();
+
     },
+
+    accountButtonClick() {
+      this.toggleUserMenu()
+    },
+
+    toggleUserMenu: function(){
+      this.showUserMenu = !this.showUserMenu;
+    },
+
+    closeUserMenu: function(){
+      this.showUserMenu = false;
+    },
+
   },
 
   watch: {
