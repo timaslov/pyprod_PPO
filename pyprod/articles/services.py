@@ -9,23 +9,35 @@ class ArticleService(BaseArticleService):
         self.repository = repository
 
     def add(self, article: ArticleDTO) -> bool:
-        """ Добавить новую статью """
+        if not self.validate_content(article):
+            return False
+
         return self.repository.add(article)
 
-    def delete(self, article: ArticleDTO) -> bool:
-        """ Удалить статью """
+    def delete(self, article_id: int) -> bool:
+        if not self.get_by_id(article_id):
+            return False
+        return self.repository.delete(article_id)
 
     def update(self, article: ArticleDTO) -> bool:
-        """ Обновить статью """
+        if not self.get_by_id(article.id) or not self.validate_content(article):
+            return False
+        return self.repository.update(article)
 
     def get_by_id(self, article_id: int) -> ArticleDTO:
-        """ Получить статью по id """
+        return self.repository.get_by_id(article_id)
 
     def get_all(self) -> list[ArticleDTO]:
-        """ Получить все """
+        return self.repository.get_all()
 
     def validate_content(self, article: ArticleDTO) -> bool:
-        """ Проверить текст статьи """
+        with open("articles/banned_words.txt", "r") as file:
+            for line in file:
+                word = line.strip()
+                if word in article.content:
+                    return False
+
+        return True
 
 
 def get_article_service():

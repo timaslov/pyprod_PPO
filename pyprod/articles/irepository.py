@@ -9,7 +9,7 @@ class BaseArticleRepository(ABC):
         """ Добавить новую статью """
 
     @abstractmethod
-    def delete(self, article: ArticleDTO) -> bool:
+    def delete(self, article_id: int) -> bool:
         """ Удалить статью """
 
     @abstractmethod
