@@ -151,7 +151,7 @@ def test_validate_article_content(mocker):
 def test_add_comment(mocker):
     repository = mocker.Mock()
     comment = CommentDTO(
-        content="Отличная статья",
+        text="Отличная статья",
         article_id=5,
         id=7,
         author_id=3,
@@ -177,14 +177,14 @@ def test_delete_comment(mocker):
 def test_update_comment(mocker):
     repository = mocker.Mock()
     comment_old = CommentDTO(
-        content="Отличная статья",
+        text="Отличная статья",
         article_id=5,
         id=7,
         author_id=3,
         created_at=datetime.datetime(2022, 5, 7, 13, 26)
     )
     comment_new = CommentDTO(
-        content="Плохая статья",
+        text="Плохая статья",
         article_id=5,
         id=7,
         author_id=3,
@@ -202,7 +202,7 @@ def test_update_comment(mocker):
 def test_get_by_id_comment(mocker):
     repository = mocker.Mock()
     comment = CommentDTO(
-        content="Отличная статья",
+        text="Отличная статья",
         article_id=5,
         id=7,
         author_id=3,
@@ -219,7 +219,7 @@ def test_get_by_id_comment(mocker):
 def test_get_all_comment(mocker):
     repository = mocker.Mock()
     comment = CommentDTO(
-        content="Отличная статья",
+        text="Отличная статья",
         article_id=5,
         id=7,
         author_id=3,
@@ -236,7 +236,7 @@ def test_get_all_comment(mocker):
 def test_get_all_by_article_id_comment(mocker):
     repository = mocker.Mock()
     comment = CommentDTO(
-        content="Отличная статья",
+        text="Отличная статья",
         article_id=5,
         id=7,
         author_id=3,

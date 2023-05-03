@@ -1,9 +1,8 @@
-from django.conf import settings
-
 from .iservices import BaseArticleService, BaseCommentService
 from .irepository import BaseArticleRepository, BaseCommentRepository
 from .repository import ArticleRepository, CommentRepository
 from .dto import ArticleDTO, CommentDTO
+from .text_validators import validate_text
 
 
 class ArticleService(BaseArticleService):
@@ -33,14 +32,7 @@ class ArticleService(BaseArticleService):
         return self.repository.get_all()
 
     def validate_content(self, article: ArticleDTO) -> bool:
-        banned_words_file_path = settings.BASE_DIR / "articles" / "banned_words.txt"
-        with open(banned_words_file_path, "r") as file:
-            for line in file:
-                word = line.strip()
-                if word in article.content:
-                    return False
-
-        return True
+        return validate_text(article.content)
 
 
 def get_article_service():
@@ -76,7 +68,7 @@ class CommentService(BaseCommentService):
         return self.repository.get_all_by_article_id(article_id)
 
     def validate_content(self, comment: CommentDTO) -> bool:
-        return True    # todo
+        return validate_text(comment.text)
 
 
 def get_comment_service():
