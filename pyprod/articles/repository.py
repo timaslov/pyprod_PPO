@@ -1,7 +1,7 @@
 from dataclasses import asdict
 
-from .irepository import BaseArticleRepository
-from .dto import ArticleDTO
+from .irepository import BaseArticleRepository, BaseCommentRepository
+from .dto import ArticleDTO, CommentDTO
 from .models import Article
 
 
@@ -20,3 +20,8 @@ class ArticleRepository(BaseArticleRepository):
 
     def get_all(self) -> list[ArticleDTO]:
         return Article.objects.all()
+
+
+class CommentRepository(BaseCommentRepository):
+    def add(self, comment: CommentDTO) -> bool:
+        return True     # todo

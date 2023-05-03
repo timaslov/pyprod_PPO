@@ -1,7 +1,9 @@
-from .iservices import BaseArticleService
-from .irepository import BaseArticleRepository
-from .repository import ArticleRepository
-from .dto import ArticleDTO
+from django.conf import settings
+
+from .iservices import BaseArticleService, BaseCommentService
+from .irepository import BaseArticleRepository, BaseCommentRepository
+from .repository import ArticleRepository, CommentRepository
+from .dto import ArticleDTO, CommentDTO
 
 
 class ArticleService(BaseArticleService):
@@ -31,7 +33,8 @@ class ArticleService(BaseArticleService):
         return self.repository.get_all()
 
     def validate_content(self, article: ArticleDTO) -> bool:
-        with open("articles/banned_words.txt", "r") as file:
+        banned_words_file_path = settings.BASE_DIR / "articles" / "banned_words.txt"
+        with open(banned_words_file_path, "r") as file:
             for line in file:
                 word = line.strip()
                 if word in article.content:
@@ -42,3 +45,39 @@ class ArticleService(BaseArticleService):
 
 def get_article_service():
     return ArticleService(ArticleRepository())
+
+
+class CommentService(BaseCommentService):
+    def __init__(self, repository: BaseCommentRepository):
+        self.repository = repository
+
+    def add(self, comment: CommentDTO) -> bool:
+        if not self.validate_content(comment):
+            return False
+        return self.repository.add(comment)
+
+    def delete(self, comment_id: int) -> bool:
+        if not self.get_by_id(comment_id):
+            return False
+        return self.repository.delete(comment_id)
+
+    def update(self, comment: CommentDTO) -> bool:
+        if not self.get_by_id(comment.id) or not self.validate_content(comment):
+            return False
+        return self.repository.update(comment)
+
+    def get_by_id(self, comment_id: int) -> CommentDTO:
+        return self.repository.get_by_id(comment_id)
+
+    def get_all(self) -> list[CommentDTO]:
+        return self.repository.get_all()
+
+    def get_all_by_article_id(self, article_id: int) -> list[CommentDTO]:
+        return self.repository.get_all_by_article_id(article_id)
+
+    def validate_content(self, comment: CommentDTO) -> bool:
+        return True    # todo
+
+
+def get_comment_service():
+    return CommentService(CommentRepository())

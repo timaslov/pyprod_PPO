@@ -16,3 +16,12 @@ class ArticleDTO:
     author_id: int | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None
+
+
+@dataclass
+class CommentDTO:
+    text: str
+    article_id: int
+    author_id: int
+    id: int | None = None
+    created_at: datetime | None = None
