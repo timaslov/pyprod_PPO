@@ -1,6 +1,5 @@
 from .iservices import BaseUserService
 from .irepository import BaseUserRepository
-from .repository import UserRepository
 from .dto import UserDTO
 
 
@@ -32,7 +31,3 @@ class UserService(BaseUserService):
 
     def login(self, username: str, password: str) -> UserDTO:
         return self.repository.login(username, password)
-
-
-def get_user_service():
-    return UserService(UserRepository())

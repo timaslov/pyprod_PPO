@@ -1,7 +1,6 @@
 import datetime
 
-from ..dto import UserDTO
-from ..services import UserService
+from ..bl import UserDTO, UserService
 
 
 def test_add_user(mocker):

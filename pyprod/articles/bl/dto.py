@@ -1,7 +1,7 @@
 from datetime import datetime
 from dataclasses import dataclass
 
-from .const import ArticleStatus
+from ..const import ArticleStatus
 
 
 @dataclass

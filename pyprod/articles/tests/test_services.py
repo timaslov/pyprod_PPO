@@ -1,8 +1,7 @@
 import datetime
 
 from ..const import ArticleStatus
-from ..dto import ArticleDTO, CommentDTO
-from ..services import ArticleService, CommentService
+from ..bl import ArticleDTO, CommentDTO, ArticleService, CommentService
 
 
 def test_add_article(mocker):

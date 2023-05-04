@@ -1,8 +1,7 @@
 from .iservices import BaseArticleService, BaseCommentService
 from .irepository import BaseArticleRepository, BaseCommentRepository
-from .repository import ArticleRepository, CommentRepository
 from .dto import ArticleDTO, CommentDTO
-from .text_validators import validate_text
+from ..text_validators import validate_text
 
 
 class ArticleService(BaseArticleService):
@@ -35,10 +34,6 @@ class ArticleService(BaseArticleService):
         return validate_text(article.content)
 
 
-def get_article_service():
-    return ArticleService(ArticleRepository())
-
-
 class CommentService(BaseCommentService):
     def __init__(self, repository: BaseCommentRepository):
         self.repository = repository
@@ -69,7 +64,3 @@ class CommentService(BaseCommentService):
 
     def validate_content(self, comment: CommentDTO) -> bool:
         return validate_text(comment.text)
-
-
-def get_comment_service():
-    return CommentService(CommentRepository())
