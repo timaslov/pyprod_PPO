@@ -7,6 +7,10 @@ import aboutView from "@/views/AboutView.vue";
 import registrationView from "@/views/RegistrationView.vue";
 import authenticationView from "@/views/AuthenticationView.vue";
 import articleEditorView from "@/views/ArticleEditorView.vue";
+import myArticlesView from "@/views/MyArticlesView.vue";
+import articlesToApprove from "@/views/ArticlesToApprove.vue";
+import articleToApprove from "@/views/ArticleToApprove.vue";
+import empowerUser from "@/views/EmpowerUser.vue";
 
 
 const routes = [
@@ -38,6 +42,26 @@ const routes = [
     path: '/editor',
     component: articleEditorView
   },
+  {
+    path: '/editor/:slug+',
+    component: articleEditorView
+  },
+  {
+    path: '/myArticles',
+    component: myArticlesView
+  },
+  {
+    path: '/articlesToApprove',
+    component: articlesToApprove
+  },
+  {
+    path: '/articleToApprove',
+    component: articleToApprove
+  },
+  {
+    path: '/empowerUser',
+    component: empowerUser
+  },
 ]
 
 const router = createRouter(
@@ -55,4 +79,11 @@ router.beforeEach(async (to) => {
   if (localStorage.getItem('user') !== null && (to.fullPath === "/signIn" || to.fullPath === "/signUp")) {
      return '/';
    }
+  if (localStorage.getItem('user') === null && (to.fullPath === "/myArticles" ||
+                                                    to.fullPath === "/articlesToApprove" ||
+                                                    to.fullPath === "/articleToApprove" ||
+                                                    to.fullPath === "/empowerUser" ||
+                                                    to.fullPath === "/editor")) {
+    return '/';
+  }
 });

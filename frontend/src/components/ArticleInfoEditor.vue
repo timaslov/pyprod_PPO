@@ -81,6 +81,7 @@ import articleEditor from "@/components/ArticleEditor.vue";
 export default {
   name: "ArticleInfoEditor",
   components: {articleEditor},
+
 }
 </script>
 

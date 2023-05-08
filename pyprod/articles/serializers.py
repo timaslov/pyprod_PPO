@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Article
 from .const import ARTICLE_TREE_FIELDS, ArticleStatus
-from .dto import ArticleDTO
+from .bl import ArticleDTO
 
 
 class ArticleSerializer(serializers.ModelSerializer):

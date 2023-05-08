@@ -6,6 +6,7 @@
         v-model="content"
     />
   <div v-html="content"></div>
+  <button @click="postArticle">В консоль</button>
 </template>
 
 <script>

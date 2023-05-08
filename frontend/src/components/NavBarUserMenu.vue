@@ -42,17 +42,64 @@ function logoutButton() {
       </li>
 
       <li>
-        <button
-          @click="logoutButton"
-          class="
+        <router-link
+            to="/myArticles"
+            class="
             w-full
             block py-2 pl-3 pr-4 rounded
             hover:bg-amber-600
             hover:text-white
+            text-center
           "
         >
-          Выйти
-        </button>
+          Мои статьи
+        </router-link>
+      </li>
+
+      <li>
+        <router-link
+            to="/articlesToApprove"
+            class="
+            w-full
+            block py-2 pl-3 pr-4 rounded
+            hover:bg-amber-600
+            hover:text-white
+            text-center
+          "
+        >
+          Статьи к проверке
+        </router-link>
+      </li>
+
+      <li>
+        <router-link
+            to="/empowerUser"
+            class="
+            w-full
+            block py-2 pl-3 pr-4 rounded
+            hover:bg-amber-600
+            hover:text-white
+            text-center
+          "
+        >
+          Наделить правами
+        </router-link>
+      </li>
+
+      <li>
+        <router-link to="/">
+          <button
+            @click="logoutButton"
+            class="
+              w-full
+              block py-2 pl-3 pr-4 rounded
+              hover:bg-amber-600
+              hover:text-white
+            "
+          >
+            Выйти
+          </button>
+        </router-link>
       </li>
     </ul>
   </div>

@@ -47,8 +47,8 @@ const treeStore = useTreeStore();
 </template>
 
 <script>
-import comment from "@/components/Comment.vue";
-import commentForm from "@/components/CommentForm.vue";
+import comment from "@/components/Comments/Comment.vue";
+import commentForm from "@/components/Comments/CommentForm.vue";
 export default {
   components: {comment, commentForm},
 

@@ -9,7 +9,8 @@ from rest_framework.decorators import action
 from ....dal import get_core_subjects
 from ....models import Article
 from ....serializers import ArticleTreeSerializer, ArticleSerializer, ArticleCreateSerializer
-from ....services import get_article_service
+from ....bl import ArticleService
+from ....da import ArticleRepository
 
 
 class ArticleViewSet(ModelViewSet):
@@ -35,6 +36,7 @@ class ArticleTestView(APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         article = serializer.save()
-        article_service = get_article_service()
+        article_service = ArticleService(ArticleRepository())
         article_service.add(article)
         return Response(asdict(article))
+

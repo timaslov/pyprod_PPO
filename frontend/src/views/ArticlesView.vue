@@ -8,7 +8,7 @@
 
 <script>
 import subjectBlock from "@/components/SubjectBlock.vue";
-import commentsBlock from "@/components/CommentsBlock.vue";
+import commentsBlock from "@/components/Comments/CommentsBlock.vue";
 export default {
   name: 'articles-view',
 
