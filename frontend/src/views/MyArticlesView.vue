@@ -37,9 +37,11 @@ export default {
     return {
       articles:
           [
-            {title: "Article 1", id: "1", slug: "art1"},
-            {title: "Article 2", id: "2", slug: "art2"},
-            {title: "Article 3", id: "3", slug: "art3"},
+            {title: "Article 1", id: "1", slug: "frontend"},
+            {title: "Article 2", id: "2", slug: "backend"},
+            {title: "Article 3", id: "3", slug: "vue"},
+            {title: "Article 4", id: "4", slug: "vue_router"},
+            {title: "Article 5", id: "5", slug: "python"},
           ],
     }
   },

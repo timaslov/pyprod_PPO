@@ -10,8 +10,9 @@ const schema = Yup.object().shape({
 });
 
 function onSubmit(values, { setErrors }) {
+  let userEmail = authStore.user.email;
   console.log(values);
-
+  console.log(userEmail);
 }
 </script>
 

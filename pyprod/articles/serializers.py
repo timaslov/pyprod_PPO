@@ -17,6 +17,8 @@ class ArticleSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "updated_at",
+            "parent_id",
+            "id"
         ]
 
 
