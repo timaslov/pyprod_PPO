@@ -1,22 +1,12 @@
 <script setup>
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
-import { useAuthStore } from '@/stores/auth.store';
-const authStore = useAuthStore();
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
   slug: Yup.string().required('Slug is required'),
 });
-function onSubmit(values) {
-  //if (authStore.user === null)
-  //  console.log('null user');
-  let userEmail = authStore.user.email;
-  if(values.parent === undefined || values.parent === "" || values.parent === null)
-    values.parent = ""
-  console.log(values);
-  console.log(userEmail);
-}
+
 </script>
 
 <template>
@@ -102,8 +92,9 @@ function onSubmit(values) {
 </template>
 
 <script>
-import axios from "axios";
 import Editor from '@tinymce/tinymce-vue'
+import axios from "axios";
+import { useAuthStore } from '@/stores/auth.store';
 export default {
   name: "ArticleInfoEditor",
   components: {'editor': Editor},
@@ -112,6 +103,7 @@ export default {
       urlArticles: 'http://127.0.0.1:8000/api/web/v1/articles/',
       articles: [],
       articleData: Object,
+      isNewArticle: true,
     }
   },
 
@@ -122,8 +114,10 @@ export default {
 
     let response2
      if (this.$route.params.slug !== undefined)
-       if (this.$route.params.slug.length > 0)
+       if (this.$route.params.slug.length > 0) {
          response2 = await this.fetchArticleBySlug(this.$route.params.slug)
+         this.isNewArticle = false
+       }
 
     if (response1 && response2){
       for (let i = 0; i < this.articles.length; i++) {
@@ -141,6 +135,45 @@ export default {
           .get('http://127.0.0.1:8000/api/web/v1/articles/' + slug)
           .then(response => (this.articleData = response.data))
       //console.log(this.articleData)
+    },
+
+    async onSubmit(values) {
+      const authStore = useAuthStore();
+      if (this.isNewArticle === true){
+        if(values.parent === undefined || values.parent === "" || values.parent === null)
+          values.parent = ""
+        console.log(values);
+
+        let response
+        let token = authStore.user.access
+        let body = {title: values.title, tagline: values.tagline, content: values.content, slug: values.slug};
+        let config = {headers: { Authorization: `Bearer ${token}` }};
+
+        try {
+          response = await axios.post(
+              "http://localhost:8001/api/web/v1/articles/", body, config)
+        } catch(error)
+        {
+          switch (error.response.status){
+            case 401:
+              throw 'Ошибка 401'
+            default:
+              throw error.response.status
+          }
+        }
+      }
+      else {
+        console.log('Update article');
+      }
+
+
+    }
+
+  },
+
+  watch: {
+    $route: function () {
+      this.isNewArticle = this.$route.params.slug === undefined;
     },
 
   },
